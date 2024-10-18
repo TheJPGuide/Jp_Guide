@@ -1,0 +1,22 @@
+function custom_login_redirect($redirect_to, $request, $user) {
+    // Check if the user is trying to access the login page
+    if (isset($_GET['action']) && $_GET['action'] === 'login') {
+        // Get the URL of the page the user logged in from
+        $original_page = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : home_url();
+
+        // If the user is not on the login page, redirect to the original page
+        if (!is_wp_login_page()) {
+            return $original_page;
+        }
+    }
+    
+    return $redirect_to;
+}
+
+// Function to determine if the current page is the login page
+function is_wp_login_page() {
+    return strpos($_SERVER['REQUEST_URI'], 'wp-login.php') !== false;
+}
+
+// Hook into the login redirect filter with a lower priority (default is 10)
+add_filter('login_redirect', 'custom_login_redirect', 20, 3);
