@@ -1,3 +1,4 @@
+<?php
 function custom_login_redirect($redirect_to, $request, $user) {
     // Check if the user is trying to access the login page
     if (isset($_GET['action']) && $_GET['action'] === 'login') {
@@ -20,3 +21,4 @@ function is_wp_login_page() {
 
 // Hook into the login redirect filter with a lower priority (default is 10)
 add_filter('login_redirect', 'custom_login_redirect', 20, 3);
+?>
